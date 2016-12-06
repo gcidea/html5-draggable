@@ -1,0 +1,168 @@
+/*手机屏幕*/
+#screen {
+    position: absolute;
+    left: 52px;
+    top: 152px;
+    width: 452px;
+    height: 779px;
+    overflow: hidden;
+    background-color: white;
+    text-align: center;
+    padding-bottom: 200px;
+    /*color: gray;*/
+}
+
+/*预览手机屏幕*/
+#preview-screen {
+    position: absolute;
+    left: 28px;
+    top: 74px;
+    width: 225px;
+    height: 390px;
+    overflow: hidden;
+    background-color: white;
+    text-align: center;
+}
+
+/*选项卡-产品素材*/
+.source-card {
+    border:0px solid blue;
+    height:60px;
+    width: 65%;
+    font-size: 25px;
+    color: orange;
+    border-radius:5px;
+    margin: 10px;
+    background-color: #0099CC;
+    text-align: center;
+    padding-top: 10px;
+    cursor: move;
+    position: relative;
+}
+
+/*选项卡-页面布局*/
+.layout-card {
+    border:0px solid yellow;
+    height:90px;
+    width: 85%;
+    font-size: 25px;
+    color: orange;
+    border-radius:0px;
+    margin: 15px;
+    background-color: lightskyblue;
+    text-align: center;
+    padding-top: 10px;
+    cursor: move;
+    position: relative;
+    opacity: 0.8;
+}
+
+/*产品素材等3个选项卡的body区域*/
+.panel-body-style {
+    height: 268px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+/*手机屏幕滚动条样式*/
+#screen::-webkit-scrollbar {
+    width: 5px;
+    background-color: #F5F5F5;
+}
+
+#screen::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #FFF;
+    background-image: -webkit-gradient(linear, 40% 0%, 75% 84%, from(#4D9C41), to(#19911D), color-stop(.6,#54DE5D))
+}
+
+/*预览手机屏幕滚动条样式*/
+#preview-screen::-webkit-scrollbar {
+    width: 5px;
+    background-color: #F5F5F5;
+}
+
+#preview-screen::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #FFF;
+    background-image: -webkit-gradient(linear, 40% 0%, 75% 84%, from(#4D9C41), to(#19911D), color-stop(.6,#54DE5D))
+}
+
+/*取色器样式*/
+#matrix-bgColor {
+    border-right:50px solid green;
+}
+
+.source-game ,
+.source-cartoon {
+    margin-bottom: 10px;
+}
+
+#model-name-content > img {
+    margin-bottom: 10px;
+}
+
+#title {
+    background-image: url("../images/layout-title.png");
+    background-repeat:no-repeat;
+    background-position:center;
+}
+#title:hover,
+#picture:hover,
+#text:hover,
+#banner:hover,
+#single:hover,
+.matrix:hover,
+#space:hover,
+#nav:hover,
+#classify:hover {
+    box-shadow: 5px 5px 5px #aaaaaa
+}
+#picture {
+    background-image: url("../images/layout-picture.png");
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+#text {
+    background-image: url("../images/layout-text.png");
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+#banner {
+    background-image: url("../images/layout-banner.png");
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+#single {
+    background-image: url("../images/layout-single.png");
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+.matrix {
+    background-image: url("../images/layout-matrix.png");
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+#space {
+    background-image: url("../images/layout-space.png");
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+#nav {
+    background-image: url("../images/layout-nav.png");
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+#classify {
+    background-image: url("../images/classify.png");
+    background-repeat:no-repeat;
+    background-position:center;
+}
+

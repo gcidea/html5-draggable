@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>可视化HTML5在线编辑</title>
+    <meta name="description" content="可视化HTML5编辑">
+    <meta name="keywords" content="可视化HTML5编辑">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="images/logo.png">
+
+    <link rel="stylesheet" href="static/amazeui/dist/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="static/amazeui/dist/css/admin.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/jquery.gridly.css">
+    <link rel="stylesheet" href="css/colpick.css">
+
+    <script src="static/amazeui/dist/js/jquery.min.js"></script>
+    <script src="static/amazeui/dist/js/amazeui.min.js"></script>
+    <script src="static/amazeui/dist/js/app.js"></script>
+    <script src="static/moment.js"></script>
+    <script src="js/jquery.gridly.js"></script>
+    <script src="js/jquery.sortable.js"></script>
+    <script src="js/drag.js"></script>
+    <script src="js/colpick.js"></script>
+
+</head>
+<body>
+    <!--文档头部-->
+    <header class="am-topbar admin-header am-topbar-inverse am-topbar-fixed-top">
+        <div class="am-topbar-brand">
+            <strong>
+                <img src="images/logo.png" width="42px" height="42px"/> 可视化HTML5在线编辑
+            </strong>
+        </div>
+        <div class="am-topbar-brand am-topbar-right">
+            <div class="">
+                <div class="am-vertical-align-middle">
+                    <p class="am-text-sm">
+                        当前时间：<span id="current-time"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!--保存、分享、预览操作区-->
+    <div class="am-g am-margin-top-sm" style="width: 100%">
+        <button id="save-html5" type="button" class="am-btn am-btn-sm am-btn-secondary am-fr am-margin-left-sm am-margin-right-sm">
+            <span class="am-icon-file"></span> 保存
+        </button>
+        <button id="btn-preview" type="button" class="am-btn am-btn-sm am-btn-default am-fr am-margin-left-sm toPreview">
+            <span class='am-icon-eye'></span>预览
+        </button>
+        <button id="btn-share" type="button" class="am-btn am-btn-sm am-btn-success am-fr">
+            <span class="am-icon-share"></span> 分享
+        </button>
+    </div>
+
+    <!--主内容区域-->
+    <div class="am-g">
+        <!--移动端预览区域-->
+        <div class="am-u-sm-5">
+            <img src="images/bg-phone.png" style="width: 520px;height: 1055px">
+            <img src="images/phone-topbar.png" style="position: absolute;top:129px;left:52px;width:452px;">
+            <div id="screen" class="pane" style="overflow-x: hidden;overflow-y: scroll;">
+
+            </div>
+            <!--<img class="bottom-component" src="images/bottom-component.png" style="position: absolute;top:871px;left:51px;width:454px;">-->
+        </div>
+
+        <!--选项卡区域-->
+        <div class="am-u-sm-7 am-margin-top-sm am-margin-right-0 am-padding-right-sm">
+            <!--页面布局-->
+            <section class="am-panel am-panel-secondary" style="height: 341px">
+                <header class="am-panel-hd">
+                    <h3 class="am-panel-title">页面布局</h3>
+                </header>
+                <div class="am-panel-bd">
+                    <div class="panel-body-style">
+                        <div id="layout-content" class="am-g">
+                            <div class="am-u-sm-3">
+                                <div id="nav" class="layout-card" draggable="true">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-3">
+                                <div id="banner" class="layout-card" draggable="true">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-3">
+                                <div id="picture" class="layout-card" draggable="true">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-3">
+                                <div id="text" class="layout-card" draggable="true">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-3">
+                                <div id="matrix1" class="layout-card matrix" draggable="true">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-3">
+                                <div id="single" class="layout-card" draggable="true">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-3">
+                                <div id="space" class="layout-card space" draggable="true">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-3 am-u-end">
+                                <div id="title" class="layout-card title" draggable="true">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-3">
+                                <div id="classify" class="layout-card" draggable="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--产品素材-->
+            <section class="am-panel am-panel-success" style="height: 341px">
+                <header class="am-panel-hd">
+                    <h3 class="am-panel-title">产品素材</h3>
+                </header>
+                <div class="am-panel-bd">
+                    <div class="panel-body-style">
+                        <label class="am-text-sm">单品</label>
+                        <div id="single-content" class="am-g">
+                            <div class="am-u-sm-12">
+                                <div class="source-single">
+                                    <img src="images/single1.png" width="65%" draggable="true">
+                                </div>
+                            </div>
+                        </div>
+                        <label class="am-text-sm">视频</label>
+                        <div id="movie-content" class="am-g">
+                            <div class="am-u-sm-3">
+                                <!--<video class="source-movie" src="video/example01.mov" width="100%" height="100%" controls="controls" draggable="true"></video>-->
+                                <img class="source-movie" src="images/video1.png" width="100%">
+                            </div>
+                            <div class="am-u-sm-3">
+                                <img class="source-movie" src="images/video2.png" width="100%">
+                            </div>
+                            <div class="am-u-sm-3">
+                                <img class="source-movie" src="images/video3.png" width="100%">
+                            </div>
+                            <div class="am-u-sm-3">
+                                <img class="source-movie" src="images/video4.png" width="100%">
+                                <!--<div class="source-card source-movie" draggable="true">
+                                    4
+                                </div>-->
+                            </div>
+                        </div>
+                        <label class="am-text-sm">图书</label>
+                        <div id="book-content" class="am-g">
+                            <div class="am-u-sm-12">
+                                <div class="source-book" draggable="true">
+                                    <img class="source-book" src="images/book1.png" width="65%">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-12">
+                                <div class="source-book" draggable="true">
+                                    <img class="source-book" src="images/book2.png" width="65%">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-12">
+                                <div class="source-book" draggable="true">
+                                    <img class="source-book" src="images/book3.png" width="65%">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-12">
+                                <div class="source-book" draggable="true">
+                                    <img class="source-book" src="images/book3.png" width="65%">
+                                </div>
+                            </div>
+                        </div>
+                        <label class="am-text-sm">音乐</label>
+                        <div id="music-content" class="am-g">
+                            <div class="am-u-sm-3">
+                                <div class="source-music">
+                                    <img class="source-music" src="images/music1.png" width="80%">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-3">
+                                <div class="source-music" draggable="true">
+                                    <img class="source-music" src="images/music2.png" width="80%">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-3">
+                                <div class="source-music" draggable="true">
+                                    <img class="source-music" src="images/music3.png" width="80%">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-3">
+                                <div class="source-music" draggable="true">
+                                    <img class="source-music" src="images/music4.png" width="80%">
+                                </div>
+                            </div>
+                        </div>
+                        <label class="am-text-sm">游戏</label>
+                        <div id="game-content" class="am-g">
+                            <div class="am-u-sm-6" class="source-game" draggable="true">
+                                <div>
+                                    <img class="source-game" src="images/game1.png" width="80%">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-6" class="source-game" draggable="true">
+                                <div>
+                                    <img class="source-game" src="images/game2.png" width="80%">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-6" class="source-game" draggable="true">
+                                <div>
+                                    <img class="source-game" src="images/game3.png" width="80%">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-6" class="source-game" draggable="true">
+                                <div>
+                                    <img class="source-game" src="images/game4.png" width="80%">
+                                </div>
+                            </div>
+                        </div>
+                        <label class="am-text-sm">动漫</label>
+                        <div id="cartoon-content" class="am-g">
+                            <div class="am-u-sm-6" class="source-cartoon" draggable="true">
+                                <div>
+                                    <img class="source-cartoon" src="images/cartoon1.png" width="80%">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-6" class="source-cartoon" draggable="true">
+                                <div>
+                                    <img class="source-cartoon" src="images/cartoon2.png" width="80%">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-6" class="source-cartoon" draggable="true">
+                                <div>
+                                    <img class="source-cartoon" src="images/cartoon3.png" width="80%">
+                                </div>
+                            </div>
+                            <div class="am-u-sm-6" class="source-cartoon" draggable="true">
+                                <div>
+                                    <img class="source-cartoon" src="images/cartoon4.png" width="80%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--页面组件-->
+            <section class="am-panel am-panel-default" style="height: 341px">
+                <header class="am-panel-hd">
+                    <h3 class="am-panel-title">页面组件</h3>
+                </header>
+                <div class="am-panel-bd">
+                    <div class="panel-body-style">
+                        <!--<label>门户导航</label>
+                        <div id="gateway-content" class="am-g">
+                            <img class="pic-gateway" src="images/gateway-nav.png" style="width: 100%;">
+                        </div>
+                        <label>主站导航</label>
+                        <div id="main-site-content" class="am-g">
+                            <img class="pic-main-site" src="images/main-site.png" style="width: 100%;">
+                        </div>
+                        <label>迪士尼专题</label>
+                        <div id="disney-content" class="am-g">
+                            <img class="pic-disney" src="images/disney.jpg" style="width: 100%;">
+                        </div>-->
+                        <label>导航组件</label>
+                        <div id="nav-bar" class="am-g">
+                            <img class="nav-bar" src="images/nav-bar.png" style="width: 60%;">
+                        </div>
+                        <label>分类组件</label>
+                        <div id="model-name-content" class="am-g">
+                            <img class="music-model" src="images/music-model.png" style="width: 60%;">
+                            <img class="video-model" src="images/video-model.png" style="width: 60%;">
+                            <img class="book-model" src="images/book-model.png" style="width: 60%;">
+                            <img class="game-model" src="images/game-model.png" style="width: 60%;">
+                            <img class="cartoon-model" src="images/cartoon-model.png" style="width: 60%;">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- banner布局参数配置模态框 -->
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="add-banner-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">banner区参数配置</div>
+            <div class="am-modal-bd">
+<!--                <div class="am-input-group am-margin-vertical-sm">
+                    <span class="am-input-group-label">高度</span>
+                    <input id="banner-height" type="text" class="am-form-field">
+                    <span class="am-input-group-label">px</span>
+                </div>-->
+                <div class="am-g">
+                    <div class="am-u-sm-6">
+                        <div class="am-input-group am-margin-vertical-sm">
+                            <span class="am-input-group-label">选择图片1</span>
+                            <input type="file" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-u-sm-6 am-margin-vertical-sm">
+                        <input type="text" class="am-form-field" placeholder="图片描述">
+                    </div>
+                </div>
+                <div class="am-g">
+                    <div class="am-u-sm-6">
+                        <div class="am-input-group am-margin-vertical-sm">
+                            <span class="am-input-group-label">选择图片2</span>
+                            <input type="file" class="am-form-field">
+                        </div>
+                    </div>
+                    <div class="am-u-sm-6 am-margin-vertical-sm">
+                        <input type="text" class="am-form-field" placeholder="图片描述">
+                    </div>
+                </div>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 列表布局参数配置模态框 -->
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="add-matrix-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">列表区参数配置</div>
+            <div class="am-modal-bd">
+                <!--<div class="am-g">
+                    <div class="am-u-sm-6">
+                        <div class="am-input-group am-margin-vertical-sm">
+                            <span class="am-input-group-label">高度</span>
+                            <input id="matrix-height" type="text" class="am-form-field">
+                            <span class="am-input-group-label">px</span>
+                        </div>
+                    </div>
+                    <div class="am-u-sm-6">
+                        <div class="am-input-group am-margin-vertical-sm">
+                            <span class="am-input-group-label">背景色#</span>
+                            <input id="matrix-bgColor" type="text" class="am-form-field" readonly style="cursor: pointer" placeholder="点击选取颜色">
+                        </div>
+                    </div>
+                </div>-->
+                <div class="am-g">
+                    <div class="am-u-sm-6">
+                        <div class="am-input-group am-margin-vertical-sm">
+                            <span class="am-input-group-label">行数</span>
+                            <select id="matrix-rowNum" class="am-form-field am-radius">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                            <span class="am-input-group-label">行</span>
+                        </div>
+                    </div>
+                    <div class="am-u-sm-6">
+                        <div class="am-input-group am-margin-vertical-sm">
+                            <span class="am-input-group-label">列数</span>
+                            <select id="matrix-columnNum" class="am-form-field am-radius">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <span class="am-input-group-label">列</span>
+                        </div>
+                        <span id="hideCurrentMatrix" style="display: none"></span>
+                    </div>
+                    <div class="am-u-sm-6 am-u-end">
+                        <div class="am-input-group am-margin-vertical-sm">
+                            <span class="am-input-group-label">单元格高度</span>
+                            <input id="matrix-height" type="text" class="am-form-field" placeholder="默认值50px">
+                            <span class="am-input-group-label">px</span>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="am-g">
+                    <div class="am-u-sm-6">
+                        <div class="am-input-group am-margin-vertical-sm">
+                            <span class="am-input-group-label">行间距</span>
+                            <input id="matrix-marginX" type="text" class="am-form-field">
+                            <span class="am-input-group-label">px</span>
+                        </div>
+                    </div>
+                    <div class="am-u-sm-6">
+                        <div class="am-input-group am-margin-vertical-sm">
+                            <span class="am-input-group-label">列间距</span>
+                            <input id="matrix-marginY" type="text" class="am-form-field">
+                            <span class="am-input-group-label">px</span>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 文本布局参数配置模态框 -->
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="add-text-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">文本区内容配置</div>
+            <div class="am-modal-bd">
+                <div class="am-g">
+                    <div class="am-u-sm-12">
+                        <script id="ueditor-container" name="content" type="text/plain"></script>
+                    </div>
+                </div>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 间距布局参数配置模态框 -->
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="add-space-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">间距区内容配置</div>
+            <div class="am-modal-bd">
+                <div class="am-g">
+                    <div class="am-u-sm-12">
+                        <div class="am-input-group am-margin-vertical-sm">
+                            <span class="am-input-group-label">距离</span>
+                            <input id="space-px" type="text" class="am-form-field" placeholder="最小值20px">
+                            <span class="am-input-group-label">px</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 标题布局参数配置模态框 -->
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="add-title-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">标题区内容配置</div>
+            <div class="am-modal-bd">
+                <div class="am-g">
+                    <div class="am-u-sm-12">
+                        <div class="am-input-group am-margin-vertical-sm">
+                            <span class="am-input-group-label">标题内容</span>
+                            <input id="title-content" type="text" class="am-form-field" placeholder="长度不超过10个字">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 预览模态框 -->
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="preview-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">
+                HTML5页面预览<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+            </div>
+            <div class="am-modal-bd">
+                <div class="" style="position: relative">
+                    <img src="images/bg-phone.png" style="width: 257px;height: 522px">
+                    <img src="images/phone-topbar.png" style="position: absolute;top:63px;left:28px;width:225px;z-index: 100;">
+                    <div id="preview-screen" class="" style="overflow-x: hidden;overflow-y: scroll;padding-left: -5px;padding-right: 10px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 错误提示模态框-拖动素材和组件前应先选择布局 -->
+    <div class="am-modal am-modal-alert" tabindex="-1" id="layout-first-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">
+                操作提示<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+            </div>
+            <div class="am-modal-bd">
+                <div class="am-g">
+                    <div class="am-u-sm-12">拖动素材或者组件前请先选择一个布局！</div>
+                </div>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn">确定</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 错误提示模态框-导航布局只能拖入组件，不能拖入素材 -->
+    <div class="am-modal am-modal-alert" tabindex="-1" id="component-only-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">
+                操作提示<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+            </div>
+            <div class="am-modal-bd">
+                <div class="am-g">
+                    <div class="am-u-sm-12">无法将素材加入导航布局，请从页面导航组件中选择！</div>
+                </div>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn">确定</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 错误提示模态框-单品布局只能拖入素材，不能拖入组件 -->
+    <div class="am-modal am-modal-alert" tabindex="-1" id="source-only-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">
+                操作提示<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+            </div>
+            <div class="am-modal-bd">
+                <div class="am-g">
+                    <div class="am-u-sm-12">单品布局只允许拖入单品素材！</div>
+                </div>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn">确定</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 错误提示模态框-分类布局只允许拖入分类组件 -->
+    <div class="am-modal am-modal-alert" tabindex="-1" id="classify-only-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">
+                操作提示<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+            </div>
+            <div class="am-modal-bd">
+                <div class="am-g">
+                    <div class="am-u-sm-12">分类布局只允许拖入分类组件！</div>
+                </div>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn">确定</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 错误提示模态框-列表布局只能拖入素材，不能拖入组件 -->
+    <div class="am-modal am-modal-alert" tabindex="-1" id="matrix-source-only-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">
+                操作提示<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+            </div>
+            <div class="am-modal-bd">
+                <div class="am-g">
+                    <div class="am-u-sm-12">列表布局只能拖入素材，不能拖入组件！</div>
+                </div>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn">确定</span>
+            </div>
+        </div>
+    </div>
+
+    <!--隐藏列表 1行1列-即单品-->
+    <div id="hide-1x1" class="am-g" style="display: none;">
+        <div class="am-u-sm-12 list-cell" style="border: 1px solid black;border-radius: 5px;height: 128px;">111</div>
+    </div>
+
+    <!--隐藏列表 1行2列-->
+    <div id="hide-1x2" class="am-g" style="display: none;">
+        <div class="am-u-sm-6 list-cell" style="border: 1px solid black;border-radius: 5px;height: 167px;">121</div>
+        <div class="am-u-sm-6 list-cell" style="border: 1px solid black;border-radius: 5px;height: 167px;">122</div>
+    </div>
+
+    <!--隐藏列表 1行3列-->
+    <div id="hide-1x3" class="am-g" style="display: none;">
+        <div class="am-u-sm-4 list-cell" style="border: 1px solid black;border-radius: 5px;height: 167px;">131</div>
+        <div class="am-u-sm-4 list-cell" style="border: 1px solid black;border-radius: 5px;height: 167px;">132</div>
+        <div class="am-u-sm-4 list-cell" style="border: 1px solid black;border-radius: 5px;height: 167px;">133</div>
+    </div>
+
+    <!--隐藏列表 1行4列-->
+    <div id="hide-1x4" class="am-g" style="display: none;">
+        <div class="am-u-sm-3 list-cell" style="border: 1px solid black;border-radius: 5px;height: 167px;">141</div>
+        <div class="am-u-sm-3 list-cell" style="border: 1px solid black;border-radius: 5px;height: 167px;">142</div>
+        <div class="am-u-sm-3 list-cell" style="border: 1px solid black;border-radius: 5px;height: 167px;">143</div>
+        <div class="am-u-sm-3 list-cell" style="border: 1px solid black;border-radius: 5px;height: 167px;">144</div>
+    </div>
+
+    <!--分享modal-->
+    <div class="am-modal am-modal-alert" tabindex="-1" id="share-popup">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">HTML5 页面分享<span data-am-modal-close class="am-close">&times;</span></div>
+            <div class="am-modal-bd">
+                <div class="am-g">
+                    <div class="am-u-sm-3">
+                        <img id="eb-wechat" class="am-center" src="images/eb-wechat.png" width="74px" height="74px" style="visibility: hidden;">
+                    </div>
+                    <div class="am-u-sm-3">
+                        <img id="eb-wechat-moments" src="images/eb-wechat-moments.png" width="74px" height="74px" style="visibility: hidden">
+                    </div>
+                    <div class="am-u-sm-3">
+                        <img id="eb-qq" src="images/eb-qq.png" width="74px" height="74px" style="visibility: hidden">
+                    </div>
+                    <div class="am-u-sm-3">
+                        <img id="eb-weibo" src="images/eb-weibo.png" width="74px" height="74px" style="visibility: hidden">
+                    </div>
+                    <!--<div class="am-u-sm-4">
+                        <img id="copySuccess" src="images/copy-success.png" width="60px" height="60px" style="visibility: hidden">
+                    </div>-->
+                </div>
+                <div class="am-g">
+                    <div class="am-u-sm-3">
+                        <img id="wechat" src="images/wechat.png" width="50px" height="50px" style="cursor: pointer">
+                    </div>
+                    <div class="am-u-sm-3">
+                        <img id="wechat-moments" src="images/wechat-moments.png" width="50px" height="50px" style="cursor: pointer">
+                    </div>
+                    <div class="am-u-sm-3">
+                        <img id="qq" src="images/qq.png" width="50px" height="50px" style="cursor: pointer">
+                    </div>
+                    <div class="am-u-sm-3">
+                        <img id="weibo" src="images/weibo.png" width="50px" height="50px" style="cursor: pointer">
+                    </div>
+                    <!--<div class="am-u-sm-4">
+                        <img id="directCopy" src="images/direct-copy.png" width="50px" height="50px" style="cursor: pointer">
+                    </div>-->
+                </div>
+                <div class="am-g">
+                    <div class="am-u-sm-3">
+                        微信
+                    </div>
+                    <div class="am-u-sm-3">
+                        朋友圈
+                    </div>
+                    <div class="am-u-sm-3">
+                        QQ
+                    </div>
+                    <div class="am-u-sm-3">
+                        微博
+                    </div>
+                    <!--<div class="am-u-sm-4">
+                        一键复制
+                    </div>-->
+                </div>
+
+                <p>
+                    扫描上方二维码可快速分享已生成HTML5页面，也可通过如下链接在浏览器中查看
+                </p>
+                <div class="am-g am-margin-top-lg">
+                    <section class="am-panel am-panel-success">
+                        <header class="am-panel-hd">
+                            <h3 class="am-panel-title">页面链接</h3>
+                        </header>
+                        <div class="am-panel-bd">
+                            <div class="am-g">
+                                <div class="am-u-sm-9">
+                                    <div class="am-input-group am-margin-vertical-sm">
+                                        <span class="am-input-group-label">URL地址</span>
+                                        <input id="share-url" type="text" class="am-form-field" placeholder="分享url地址" value="">
+                                    </div>
+                                </div>
+                                <div class="am-u-sm-3">
+                                    <button id="" type="button" class="am-btn am-btn-sm am-btn-success am-fr am-margin-top-sm">
+                                        <span class="am-icon-copy"></span> 复制链接
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!--<div class="am-modal-footer">
+                <span class="am-modal-btn">确定</span>
+            </div>-->
+        </div>
+    </div>
+
+    <!--保存modal-->
+    <div class="am-popup" id="save-popup">
+        <div class="am-popup-inner">
+            <div class="am-popup-hd">
+                <h4 class="am-popup-title">保存HTML5页面</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+            </div>
+            <div id="save-html5-body" class="am-popup-bd">
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //预览功能
+        var spaceText = "";
+        $("#btn-preview").click(function(){
+/*            var screenCopy = $("#screen").clone();
+            //特殊处理视频元素
+            screenCopy.find("#video").attr("height","115px");
+            screenCopy.find("#video").css("margin-left","11px");
+
+            screenCopy.find(".delete").css("display","none");
+            screenCopy.children().css("border","none");
+            //将处理后的屏幕内容添加至预览窗口
+            $("#preview-screen").html(screenCopy.html());
+            $('#preview-prompt').modal({
+                relatedTarget: this,
+                height: 580,
+                width:300,
+                closeViaDimmer: 0
+            });
+            return false;*/
+            if($("#btn-preview").hasClass("toPreview")) {
+                $("#screen").children().css("border","none");
+                $("#screen").css("padding-bottom","10px");
+
+                $("#btn-preview").html("<span class='am-icon-pencil'></span>继续编辑");
+                $("#btn-preview").removeClass("toPreview");
+                $("#btn-preview").addClass("toEdit");
+                $(".delete").hide();
+                $(".am-form-file").hide();
+
+                $(".list-cell").css("border","none");
+                $("#screen").find(".title").css("border-left","10px solid #0099CC");
+                spaceText = $("#screen").find(".space").html();
+                $("#screen").find(".space").html("");
+            } else {
+                $(".list-cell").css("border","1px solid black");
+                $("#screen").children().css("border","1px solid black");
+                $("#screen").find(".title").css("border-left","10px solid #0099CC")
+                $("#screen").css("padding-bottom","200px");
+                $("#btn-preview").html("<span class='am-icon-eye'></span>预览");
+                $("#btn-preview").removeClass("toEdit");
+                $("#btn-preview").addClass("toPreview");
+                $(".delete").show();
+                $(".am-form-file").show();
+                $("#screen").find(".space").html(spaceText);
+            }
+        })
+        //保存功能
+        $("#save-html5").click(function(){
+            $("#screen").children().css("border","none");
+            $("#screen").css("padding-bottom","10px");
+
+            $(".delete").hide();
+            $(".am-form-file").hide();
+
+            $(".list-cell").css("border","none");
+            $("#screen").find(".title").css("border-left","10px solid #0099CC");
+            spaceText = $("#screen").find(".space").html();
+            $("#screen").find(".space").html("");
+
+            var screenOuterHTML = $("#screen").prop("outerHTML");
+            console.log(screenOuterHTML);
+
+            var htmlDocPart1 = '<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"> <title>HTML5页面生成</title> <link rel="stylesheet" href="static/amazeui/dist/css/amazeui.min.css"/><script src="static/amazeui/dist/js/jquery.min.js">' + '</scr'+'ipt>' + '<script src="static/amazeui/dist/js/amazeui.min.js">' + '</scr' + 'ipt>' + '<script src="static/amazeui/dist/js/app.js">' + '</scr'+'ipt>' + '<style>#screen {margin:0 auto;width: 452px;height: 779px;overflow: hidden;background-color: white;text-align: center;padding-bottom: 200px;}#screen::-webkit-scrollbar {width: 5px;background-color: #F5F5F5;}#screen::-webkit-scrollbar-thumb {border-radius: 5px;background-color: #FFF;background-image: -webkit-gradient(linear, 40% 0%, 75% 84%, from(#4D9C41), to(#19911D), color-stop(.6,#54DE5D))} </style> </head> <body>';
+            var htmlDocPart2 = '</body></html>';
+
+            $("#save-html5-body").text(htmlDocPart1 + screenOuterHTML + htmlDocPart2);
+            $("#save-popup").modal();
+        })
+
+        //分享功能
+        $("#btn-share").click(function(){
+            $("#share-desc").attr('value',"#迪士尼狂欢#");
+            $("#share-desc").select();
+            $("#share-url").attr('value',"http://s.migu.cn/disneyDay");
+            $("#share-url").select();
+
+            $('#share-popup').modal({
+                relatedTarget: this,
+                height: 440,
+                width: 680,
+                closeViaDimmer: 0
+            });
+        })
+
+        $("#wechat").hover(
+            function () {
+                $("#eb-wechat").css("visibility","visible");
+                $("#wechat").css("width","47px");
+                $("#wechat").css("height","47px");
+            },
+            function () {
+                $("#eb-wechat").css("visibility","hidden");
+                $("#wechat").css("width","50px");
+                $("#wechat").css("height","50px");
+            }
+        )
+        $("#wechat-moments").hover(
+            function () {
+                $("#eb-wechat-moments").css("visibility","visible");
+                $("#wechat-moments").css("width","47px");
+                $("#wechat-moments").css("height","47px");
+            },
+            function () {
+                $("#eb-wechat-moments").css("visibility","hidden");
+                $("#wechat-moments").css("width","50px");
+                $("#wechat-moments").css("height","50px");
+            }
+        )
+        $("#qq").hover(
+            function () {
+                $("#eb-qq").css("visibility","visible");
+                $("#qq").css("width","47px");
+                $("#qq").css("height","47px");
+            },
+            function () {
+                $("#eb-qq").css("visibility","hidden");
+                $("#qq").css("width","50px");
+                $("#qq").css("height","50px");
+            }
+        )
+        $("#weibo").hover(
+            function () {
+                $("#eb-weibo").css("visibility","visible");
+                $("#weibo").css("width","47px");
+                $("#weibo").css("height","47px");
+            },
+            function () {
+                $("#eb-weibo").css("visibility","hidden");
+                $("#weibo").css("width","50px");
+                $("#weibo").css("height","50px");
+            }
+        )
+
+        /*$("#directCopy").click(function () {
+            $("#copySuccess").css("visibility","visible");
+            setTimeout(function () {
+                $("#copySuccess").css("visibility","hidden");
+            },1500);
+        })*/
+
+
+
+        //当前时间
+        setInterval(function(){
+            var current = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+            $("#current-time").html(current);
+        },1000);
+    </script>
+
+    <!--将UEditor的初始化放在页面其他初始化js前-->
+    <!-- 配置文件 -->
+    <script type="text/javascript" src="static/ueditor/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="static/ueditor/ueditor.all.js"></script>
+
+    <script>
+        var ue = UE.getEditor('ueditor-container',{
+            initialFrameWidth: null,
+            initialFrameHeight:300,
+            zIndex: 2000,
+            autoHeightEnabled: false,
+            maximumWords: 140,
+            elementPathEnabled: false,
+            focus: true,
+            enableAutoSave: false,
+        });
+    </script>
+</body>
+</html>
